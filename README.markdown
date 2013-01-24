@@ -56,4 +56,4 @@ Run the generate-diagrams app:
         $ java -jar eatools.jar
 
 --
-Ove Scheel and Per Spilling, nov-des 2008
+Ove Scheel and Per Spilling (per@kodemaker.no), nov-des 2008
