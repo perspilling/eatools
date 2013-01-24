@@ -1,0 +1,46 @@
+# Filename and paths for the Enterprise Architect UML model for integration purposes
+
+# The connect string to be used to access the EA repo. This might differ from user to user. After
+# you have installed EA and the DB driver to access the EA repo you can copy the connect string
+# from EA in the File->Open Project dialog
+
+# Connect string for Ove
+#diagramgen.modelfile        = ea_repos --- DBType=0;Connect=Provider=MSDASQL.1;Password=architect;Persist Security Info=True;User ID=ea_user;Data Source=ea_repos;Initial Catalog=ea_repos
+
+# Connect string for Per
+ea.modelfile         = mysql-ea-repo --- DBType=0;Connect=Provider=MSDASQL.1;Persist Security Info=False;User ID=ea_user;Data Source=MySQL-EA-repo;Initial Catalog=ea_repos
+
+# The root package in the repo
+ea.rootpkg			= Model
+
+# The directory to be used when generating the diagrams.
+# Note: The diagramgen.doc.root.dir should be given an absolute pathname
+ea.doc.root.dir	    = c:\\tmp\\eadoc2
+#ea.doc.root.dir	    = z:\\
+
+# The loglevel when running the utility. If ommitted, INFO is set.
+ea.loglevel         = debug
+
+
+# The name of the MQManager type:
+model.mq.manager.name    = KøManager
+
+# The package where the MQ-types are defined (matamodel):
+model.mq.metamodel.package = MQ modellelementer
+
+# This file is read by the tests in order to populate the repos with MQQueue-instances.
+#mq.configfile = xml/custody.websphere.config_SingleQ.xml
+#mq.configfile = xml/smsbank/websphere.config.xml
+mq.configfile = xml/smsbank/websphere.config.xml
+
+# The target package of the MQManager instances:
+model.mq.manager.package = MQ Managers
+
+# The target package of the MQQueue instances:
+model.mq.queues.package  = MQ Køer
+
+# The target package of the Servers instances:
+model.servers.package   = Servers
+
+
+
