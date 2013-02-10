@@ -8,12 +8,19 @@ import java.io.FileInputStream;
 import java.util.Properties;
 
 /**
- * This class handles the properties that can be used to configure the EA utilities. The
- * properties should be placed in a file called 'ea.application.properties' (i.e. corresponding
- * to the classname) which must be located in {user.home} or in classpath. If there are two property
- * files then both files will be read, and the properties in {user.home} will override the properties
- * from the file on the classpath.
- *
+ * This class handles the properties that can be used to configure the EA utilities. The property file can:
+ * <ul>
+ *     <li>
+ *     Be given as a parameter, or
+ *     </li>
+ *     <li>
+ *     Be placed in a file called 'ea.application.properties' (i.e. corresponding to the classname) which
+ *     must be located in {user.home} or in classpath.
+ *     </li>
+ * </ul>
+ * <p>
+ * The order of precedence is: parameter, file in {user.home}, file in classpath.
+ * </p>
  * The names of the properties in the property file must correspond to the constants defined in
  * this enum class, and all enum-constants must have a corresponding property in the file.
  *
@@ -31,21 +38,38 @@ public enum EaApplicationProperties {
     private static final Log log = LogFactory.getLog(EaApplicationProperties.class);
 
     private final static Properties applicationProperties = new Properties();
+    private static String propsFilename = null;
+
+    public static void init() {
+        _init();
+    }
+
+    public static void init(String propertyFilename) {
+        propsFilename = propertyFilename;
+        _init();
+    }
 
     /**
-     * Loads development tool properties from the property file propsFilename
-     * which must be located in {user.home} or in classpath.
+     * Loads development tool properties from the property file propsFilename which can be given as a
+     * parameter, be located in {user.home}, or in the classpath. A parameter value will have precedence
+     * over a file in the home directory, which will have precedence over a property file in the classpath.
      *
      * @return loaded properties
      */
-    static {
+    static void _init() {
         final String fileSeparator = SystemProperties.FILE_SEPARATOR.value();
-        final String propsFilename = getPropertiesFilename();
+        if (propsFilename == null) {
+            propsFilename = getPropertiesFilename();
+        }
+        File localPropFile = new File(propsFilename);
         File homePropFile = new File(SystemProperties.USER_HOME.value() + fileSeparator + propsFilename);
 
-        loadPropertiesFromClassPath(propsFilename);
-        if (homePropFile.canRead()) {
-            loadPropertiesFromUserHome(homePropFile);
+        if (localPropFile.canRead()) {
+            loadPropertiesFromFile(localPropFile);
+        } else if (homePropFile.canRead()) {
+            loadPropertiesFromFile(homePropFile);
+        } else {
+            loadPropertiesFromClassPath(propsFilename);
         }
         if (applicationProperties.isEmpty()) {
             String helpMessage = "Couldn't find the property file - The properties should be placed in a file called 'ea.application.properties' (i.e. corresponding\n" +
@@ -68,7 +92,7 @@ public enum EaApplicationProperties {
                 String enumName = Camel.propertyNameAsConstant((String) key);
                 EaApplicationProperties.valueOf(enumName);
             } catch (IllegalArgumentException iae) {
-                log.warn("Missing property enum [" + Camel.propertyNameAsConstant((String) key) + "] in " + EaApplicationProperties.class.getName());
+                //log.warn("Missing property enum [" + Camel.propertyNameAsConstant((String) key) + "] in " + EaApplicationProperties.class.getName());
             }
         }
     }
@@ -92,12 +116,12 @@ public enum EaApplicationProperties {
         }
     }
 
-    private static void loadPropertiesFromUserHome(File homePropFile) {
+    private static void loadPropertiesFromFile(File file) {
         try {
-            applicationProperties.load(new FileInputStream(homePropFile));
-            log.info("Using properties from user.home");
+            applicationProperties.load(new FileInputStream(file));
+            log.info("Using properties from " + file.getName());
         } catch (Exception e) {
-            log.info("Unable to load properties from: " + homePropFile.getAbsolutePath());
+            log.info("Unable to load properties from: " + file.getName());
         }
     }
 

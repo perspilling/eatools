@@ -3,8 +3,13 @@ About EAtools
 
 This prototype software can be used to extract the UML models from the
 [Sparx Enterprise Architect](http://www.sparxsystems.com/products/ea/index.html) UML diagramming tool via it's Java
-API (`eaapi.jar`). Our goal with this was to be able to extract diagrams for inclusion in the
-[Confluence Wiki](http://www.atlassian.com/software/confluence), and give the diagrams fixed, and logical file names.
+API (`eaapi.jar`). We developed the software as part of an enterprise architecture documentation project where we 
+wanted to combine written documentation in a [Confluence](http://www.atlassian.com/software/confluence) wiki with architecture
+models in Enterprise Architect.
+
+Via the EAtools software we were able to extract diagrams for inclusion in the Confluence, and give the diagrams fixed, and logical file names which made it possible to embed the UML models in wiki-pages in an effective manner. When model diagrams
+where updated in Enterprise Architect we would use the EAtools commmand line script to automatically updated the diagrams in
+the wiki pages. 
 
 A lightning talk about this work was given at the [JavaZone](www.javazone.no) conference in 2009. The slides from the talk are found here: [http://www.slideshare.net/pspilling/agile-documentation-with-confluence-and-ea](http://www.slideshare.net/pspilling/agile-documentation-with-confluence-and-ea).
 
@@ -41,11 +46,13 @@ installation. The standard location for this is: `C:\Program Files\Sparx Systems
         $ cd <the directory where the eaapi.jar is located>
         $ mvn install:install-file -DgroupId=org.sparx -DartifactId=eaapi -Dversion=1.0.0 -Dpackaging=jar -Dfile=eaapi.jar
 
-2. cd back to the directory with the EAtools project, and compile the :
+2. Copy the SSJavaCOM.dll (located in the same directory as eaapi.jar) to the windows\system32 directory
+
+3. cd back to the directory with the EAtools project, and compile the :
 
         $ mvn clean install
 
-3. Build the eatools.jar file:
+4. Build the eatools.jar file:
 
         $ mvn package -Dmaven.test.skip=true -DmainClass=no.eatools.diagramgen.EaDiagramGenerator -DjarFileName=eatools
 

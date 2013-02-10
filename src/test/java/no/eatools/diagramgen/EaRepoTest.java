@@ -372,7 +372,7 @@ public class EaRepoTest extends AbtractEaTestCase {
         String packName = "MQ Managers";
         Package rootPkg = eaRepo.getRootPackage();
         Package thePkg = eaRepo.findPackageByName(packName, rootPkg, EaRepo.RECURSIVE);
-        Element classifier = eaRepo.findOrCreateComponentInPackage(thePkg, "KøManager");
+        Element classifier = eaRepo.findOrCreateComponentInPackage(thePkg, "KÃ¸Manager");
         Element componentInstance = eaRepo.findOrCreateComponentInstanceInPackage(thePkg, "EnNyManager", classifier);
         assertNotNull(componentInstance);
         assertEquals(EaMetaType.COMPONENT.toString(), componentInstance.GetMetaType());

@@ -99,9 +99,13 @@ public class EaDiagram {
     private static String makeWebFriendlyFilename(String s) {
         s = StringUtils.replaceChars(s, ' ', '_');
         s = StringUtils.replaceChars(s, '/', '-');
-        s = StringUtils.replace(s, "�", "ae");
-        s = StringUtils.replace(s, "�", "oe");
-        s = StringUtils.replace(s, "�", "aa");
+        /* Replace Norwegian characters with alternatives */
+        s = StringUtils.replace(s, "Æ", "ae");
+        s = StringUtils.replace(s, "Ø", "oe");
+        s = StringUtils.replace(s, "Å", "aa");
+        s = StringUtils.replace(s, "æ", "ae");
+        s = StringUtils.replace(s, "ø", "oe");
+        s = StringUtils.replace(s, "å", "aa");
         s = StringUtils.lowerCase(s);
         return s;
     }

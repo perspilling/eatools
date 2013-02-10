@@ -18,6 +18,13 @@ public class EaDiagramGenerator {
 
     public static void main(String[] args) {
         try {
+            String propertyFilename;
+            if (args.length > 0) {
+                propertyFilename = args[0];
+                EaApplicationProperties.init(propertyFilename);
+            } else {
+                EaApplicationProperties.init();
+            }
             File modelFile = new File(EaApplicationProperties.EA_PROJECT.value());
             EaRepo eaRepo = new EaRepo(modelFile);
             eaRepo.open();
