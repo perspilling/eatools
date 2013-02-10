@@ -1,5 +1,6 @@
 *.class
 *.iml
+target
 
 # Package Files #
 *.jar
